@@ -1,18 +1,14 @@
-import React from 'react';
-import { auth, currentUser } from '@clerk/nextjs/server'
+'use client'
 
-export default async function Page() {
-  // Get the userId from auth() -- if null, the user is not signed in
-  const { userId } = await auth()
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
-  // Protect the route by checking if the user is signed in
-  if (!userId) {
-    return <div>Sign in to view this page</div>
-  }
+export default function Home() {
+  const router = useRouter()
 
-  // Get the Backend API User object when you need access to the user's information
-  const user = await currentUser()
+  useEffect(() => {
+    router.push('/inicio')  
+  }, [])
 
-  // Use `user` to render user details or create UI elements
-  return <div>Welcome,!</div>
+  return null  
 }
