@@ -26,7 +26,7 @@ export default function Inicio() {
     <div>
       <nav className="flex justify-between p-4 border border-black m-2 rounded-lg">
         Hola
-        <UserButton afterSignOutUrl="/sign-in" />
+        <UserButton afterSignOutUrl="/inicio" />
       </nav>
 
       <div className="container p-4 bg-white border border-black m-2 rounded-lg shadow-md max-w-6xl mx-auto">
