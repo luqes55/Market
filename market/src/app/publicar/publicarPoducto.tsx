@@ -27,7 +27,7 @@ export default function PublicarProducto({ onNuevoProducto }: { onNuevoProducto:
 
     const nuevoProducto = {
       ...producto,
-      autor: user?.fullName || 'Anónimo',
+      autor: user?.id, // <-- ID de Clerk
       precio: parseFloat(producto.precio), // Asegurarse que precio sea número
     };
 

@@ -35,6 +35,7 @@ class ProductoOut(BaseModel):
     imagen_url: str
     whatsapp: str
     autor: str
+    precio: float
 
     class Config:
         orm_mode = True

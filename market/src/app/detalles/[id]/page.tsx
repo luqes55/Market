@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import Link from 'next/link';
 
 export default function DetallesProducto() {
   const { id } = useParams();
@@ -20,7 +19,27 @@ export default function DetallesProducto() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 shadow">
+       {/* Mostrar información del autor */}
+       <div className="mt-4 ml-0  p-2 rounded bg-gray-50  flex flex-col sm:flex-row items-center  gap-2 max-w-sm mx-auto">
+          {producto.autor.logo_url && (
+            <img
+              src={producto.autor.logo_url}
+              alt="Autor"
+              className="w-16 h-16 rounded-full object-cover"
+            />
+          )}
+          <div className="flex flex-col items-center sm:items-start">
+            <p className="font-semibold text-lg text-center sm:text-left">
+              {producto.autor.nombre}
+            </p>
+            <h1 className="text-sm bg-green-600 text-white px-3 py-0 rounded shadow mt-1">
+              {producto.autor.rol}
+            </h1>
+          </div>
+        </div>
+
+      {/* Mostrar el resto de la información del producto */}
       <h1 className="text-2xl font-bold mb-4">{producto.nombre}</h1>
       {producto.imagen_url && (
         <img
@@ -39,11 +58,15 @@ export default function DetallesProducto() {
       >
         Contactar por WhatsApp
       </a>
-      {/* Botón para regresar al inicio */}
-      <div className="mt-6">
-        <Link href="/inicio" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-          Regresar al inicio
-        </Link>
+      
+      {/* Botón para ir al inicio */}
+      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full px-4 sm:px-0 flex justify-center gap-3 flex-wrap">
+        <button
+          onClick={() => window.location.href = '/'}
+          className="bg-green-600 text-white px-5 py-3 rounded-full shadow-lg hover:bg-green-700 transition text-sm sm:text-base animate-bounce"
+        >
+          Ir al inicio
+        </button>
       </div>
     </div>
   );
