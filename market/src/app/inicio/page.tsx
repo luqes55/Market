@@ -43,7 +43,7 @@ export default function Inicio() {
             className="bg-gray-500 text-white px-5 py-3 rounded-full shadow-lg
              hover:bg-gray-600 transition text-sm sm:text-base"
           >
-            Ir al inicio
+            Inicio
           </button>
           {/* Botón para publicar */}
           <button
@@ -52,6 +52,15 @@ export default function Inicio() {
           >
             Publicar producto
           </button>
+
+          {/* Botón para ir a Mis Productos */}
+          <button
+          onClick={() => window.location.href = '/misProductos'}
+          className="bg-green-600 text-white px-5 py-3 rounded-full shadow-lg hover:bg-green-700 transition text-sm sm:text-base animate-bounce"
+        >
+          Mis productos
+        </button>
+
         
           
         </div>

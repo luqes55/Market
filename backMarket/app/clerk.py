@@ -2,7 +2,7 @@ import requests
 from fastapi import HTTPException
 
 CLERK_API_URL = "https://api.clerk.dev/v1"
-CLERK_API_KEY = "sk_test_nya4t8ICPO73GmkPVxU0LUqkHfU3UQj1HoVIeZwBqP"  # Reemplaza con tu API Key de Clerk
+CLERK_API_KEY = "sk_test_nya4t8ICPO73GmkPVxU0LUqkHfU3UQj1HoVIeZwBqP"  
 
 def verify_clerk_token(token: str):
     """
