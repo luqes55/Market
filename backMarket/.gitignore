@@ -1,0 +1,43 @@
+# Entorno virtual
+venv/
+.env/
+env
+
+# Archivos de configuración sensibles
+*.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs y archivos temporales
+*.log
+*.tmp
+
+# Archivos de bases de datos
+*.sqlite3
+*.db
+
+# Cache de herramientas de análisis
+.mypy_cache/
+.pytest_cache/
+.dmypy.json
+.pyre/
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+
+# Archivos de testing
+tests/__pycache__/
+tests/*.pyc
+
+# Otros
+*.bak
