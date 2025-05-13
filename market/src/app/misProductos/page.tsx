@@ -17,6 +17,29 @@ export default function MisProductos() {
 
   }
 
+  const handleEliminar = async (id: string) => {
+    if (confirm("¿Estás seguro de eliminar este producto?")) {
+      try {
+        const res = await fetch(`http://localhost:8000/eliminarProdu/${id}`, {
+          method: 'DELETE',
+        });
+  
+        if (!res.ok) throw new Error('Error al eliminar');
+  
+        // Actualiza el estado eliminando el producto
+        setProductos(productos.filter(p => p.id !== id));
+      } catch (error) {
+        console.error("Error al eliminar producto:", error);
+      }
+    }
+  };
+  
+  const handleActualizar = (id: string) => {
+    // Redirige a una página para editar el producto
+    window.location.href = `/actualizarProductos/${id}`; // asegúrate de tener esta ruta
+  };
+  
+
   const [productos, setProductos] = useState<Producto[]>([])
 
   useEffect(() => {
@@ -40,7 +63,7 @@ export default function MisProductos() {
             {productos.map(prod => (
                 <li
                 key={prod.id}
-                className="flex gap-4 items-start p-4 border rounded-md shadow  bg-white"
+                className="flex gap-4 items-start p-4  border rounded-md shadow  bg-white"
                 >
                 {/* Imagen */}
                 {prod.imagen_url && (
@@ -58,7 +81,22 @@ export default function MisProductos() {
                     <p className="text-green-600 font-semibold">Precio: ${prod.precio}</p>
                     <p className="text-sm text-gray-500">WhatsApp: {prod.whatsapp}</p>
                     <p className="text-sm text-gray-500">Categoría: {prod.categoria}</p>
-                    <p className="text-sm text-gray-500">Autor: {prod.autor}</p>
+                    {/*<p className="text-sm text-gray-500">Autor: {prod.autor}</p>*/}
+                    {/* Botones */}
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        onClick={() => handleActualizar(prod.id)}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                      >
+                        Actualizar
+                      </button>
+                      <button
+                        onClick={() => handleEliminar(prod.id)}
+                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                      >
+                        Eliminar
+                      </button>
+                      </div>
                 </div>
                 </li>
             ))}

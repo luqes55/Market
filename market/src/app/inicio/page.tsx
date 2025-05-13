@@ -2,13 +2,13 @@
 
 import { useUser, UserButton } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
-import PublicarProducto from '../publicar/publicarPoducto';
+
 import Link from 'next/link';
 
 export default function Inicio() {
   const { user } = useUser();
   const [posts, setPosts] = useState<{ id: string; imagen_url?: string; nombre: string; categoria?: string; descripcion: string; whatsapp: string }[]>([]);
-  const [mostrarModal, setMostrarModal] = useState(false);
+  
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/obtenerProdu')
@@ -19,15 +19,12 @@ export default function Inicio() {
 
   const handleNuevoProducto = (nuevoProducto: any) => {
     setPosts((prevPosts) => [nuevoProducto, ...prevPosts]);
-    setMostrarModal(false); // cerrar modal después de publicar
+    
   };
 
   return (
     <div>
-      <nav className="flex justify-between p-4 border border-black m-2 rounded-lg">
-        Hola
-        <UserButton afterSignOutUrl="/inicio" />
-      </nav>
+      
 
       <div className="container p-4 bg-white border border-black m-2 rounded-lg shadow-md max-w-6xl mx-auto">
         <h1 className="text-2xl font-bold mb-4">Inicio</h1>
@@ -46,12 +43,13 @@ export default function Inicio() {
             Inicio
           </button>
           {/* Botón para publicar */}
-          <button
-            onClick={() => setMostrarModal(true)}
-            className="bg-blue-500 text-white px-5 py-3 rounded-full shadow-lg hover:bg-blue-600 transition text-sm sm:text-base"
-          >
-            Publicar producto
-          </button>
+          <Link
+          href="/publicar"
+          className="bg-blue-500 text-white px-5 py-3 rounded-full shadow-lg hover:bg-blue-600 transition text-sm sm:text-base text-center"
+        >
+          Publicar producto
+        </Link>
+
 
           {/* Botón para ir a Mis Productos */}
           <button
@@ -68,21 +66,7 @@ export default function Inicio() {
         
         )}
 
-        {/* Modal */}
-        {mostrarModal && (
-          <div className="fixed inset-0 bg-gradient-to-b from-gray-800/60 to-gray-900/60 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
-              <button
-                onClick={() => setMostrarModal(false)}
-                className="absolute top-2 right-2 text-gray-600 hover:text-red-500 text-xl"
-              >
-                ×
-              </button>
-              <PublicarProducto onNuevoProducto={handleNuevoProducto} />
-            </div>
-          </div>
-        )}
-
+        
 
         {/* Cards */}
        
@@ -108,7 +92,7 @@ export default function Inicio() {
                         </Link>
 
                         <div className="flex justify-between items-center mt-4">
-                          <button className="text-red-500 hover:text-red-600">❤️</button>
+                          
                           <a
                             href={`https://wa.me/${post.whatsapp}`}
                             target="_blank"
@@ -117,6 +101,7 @@ export default function Inicio() {
                           >
                             WhatsApp
                           </a>
+                          
                         </div>
                     </div>
 

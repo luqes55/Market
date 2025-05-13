@@ -66,7 +66,8 @@ export default function PublicarProducto({ onNuevoProducto }: { onNuevoProducto:
   if (!user) return <p className="text-center mt-4">Debes iniciar sesión para publicar.</p>;
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-4 bg-white border rounded-lg shadow">
+    <form onSubmit={handleSubmit} className="w-full max-w-xl mx-auto p-4 bg-white border border-gray-300 rounded-lg shadow-md
+             sm:p-6 md:p-8 space-y-4">
       <h2 className="text-xl font-bold mb-4">Publicar nuevo producto</h2>
 
       <input
@@ -131,6 +132,16 @@ export default function PublicarProducto({ onNuevoProducto }: { onNuevoProducto:
       <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
         Publicar producto
       </button>
+    {/* Botón para ir al inicio */}
+    <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full px-4 sm:px-0 
+      flex justify-center gap-3 flex-wrap">
+      <button
+      onClick={() => window.location.href = '/'}
+      className="bg-green-600 text-white px-5 py-3 rounded-full shadow-lg hover:bg-green-700 transition text-sm sm:text-base animate-bounce"
+      >
+      Ir al inicio
+      </button>
+    </div>
     </form>
   );
 }

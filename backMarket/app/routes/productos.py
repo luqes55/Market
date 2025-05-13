@@ -40,12 +40,50 @@ def crear_producto(producto: ProductoCreate, db: Session = Depends(get_db)):
     whatsapp=nuevo_producto.whatsapp,     
     autor=nuevo_producto.autor            
 )
+    
+@router.put("/actualizarProdu/{producto_id}", response_model=ProductoOut)
+def actualizar_producto(producto_id: int, producto: ProductoCreate, db: Session = Depends(get_db)):
+    # Buscar el producto en la base de datos
+    producto_db = db.query(Producto).filter(Producto.id == producto_id).first()
+    if not producto_db:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+
+    # Actualizar los campos del producto
+    producto_db.nombre = producto.nombre
+    producto_db.categoria = producto.categoria
+    producto_db.descripcion = producto.descripcion
+    producto_db.precio = producto.precio
+    producto_db.imagen_url = producto.imagen_url
+    producto_db.whatsapp = producto.whatsapp
+    producto_db.autor = producto.autor
+
+    db.commit()
+    db.refresh(producto_db)
+
+    return ProductoOut(
+        id=producto_db.id,
+        nombre=producto_db.nombre,
+        descripcion=producto_db.descripcion,
+        precio=producto_db.precio,
+        imagen_url=producto_db.imagen_url,
+        categoria=producto_db.categoria,
+        whatsapp=producto_db.whatsapp,
+        autor=producto_db.autor
+    )
 
 # Obtener todos los productos
 @router.get("/obtenerProdu", response_model=list[ProductoOut])
 def obtener_productos(db: Session = Depends(get_db)):
     productos = db.query(Producto).order_by(Producto.id.desc()).all() 
     return productos
+
+@router.get("/producto/{producto_id}", response_model=ProductoOut)
+def obtener_producto(producto_id: int, db: Session = Depends(get_db)):
+    producto = db.query(Producto).filter(Producto.id == producto_id).first()
+    if not producto:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+    return producto
+
 
 
 @router.get("/misProductos/{autor}", response_model=List[ProductoOut])
@@ -93,3 +131,37 @@ def obtener_detalles(producto_id: int, db: Session = Depends(get_db)):
         "whatsapp": producto.whatsapp,
         "autor": autor_info
     }
+    
+@router.delete("/eliminarProdu/{producto_id}")
+def delete_producto(producto_id: int, db: Session = Depends(get_db)):
+    # Buscar el producto en la base de datos
+    producto_db = db.query(Producto).filter(Producto.id == producto_id).first()
+    if not producto_db:
+        raise HTTPException(status_code=404, detail="Producto no encontrado")
+
+    # Eliminar el producto
+    db.delete(producto_db)
+    db.commit()
+
+    return {"message": "Producto eliminado correctamente"}
+
+@router.get("/productosPorCategoria/{categoria}", response_model=List[ProductoOut])
+def porCategoria(categoria: str, db: Session = Depends(get_db)):
+    productos = db.query(Producto).filter(Producto.categoria == categoria).all()
+    if not productos:
+        raise HTTPException(status_code=404, detail="No se encontraron productos en esta categoría")
+    
+    return productos
+
+@router.get("/buscar/{query}", response_model=List[ProductoOut])
+def buscar_producto(query: str, db: Session = Depends(get_db)):
+    productos = db.query(Producto).filter(
+        (Producto.nombre.ilike(f"%{query}%")) | 
+        (Producto.descripcion.ilike(f"%{query}%"))|
+        (Producto.categoria.ilike(f"%{query}%")) 
+    ).all()
+    
+    if not productos:
+        raise HTTPException(status_code=404, detail="No se encontraron productos")
+
+    return productos
